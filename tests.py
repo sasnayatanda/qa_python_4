@@ -10,10 +10,10 @@ class TestBooksCollectors:
         'Аб' * 20,
         '1+1'
     ])
-    def test_add_book_true_adds_to_genre(self, name):
+    def test_add_book_true_adds_to_genre(self, book_name):
         collector = BooksCollector()
-        collector.add_new_book(name)
-        assert name in collector.get_books_genre()
+        collector.add_new_book(book_name)
+        assert book_name in collector.get_books_genre()
 
     def test_add_book_false_add_to_genre_if_name_zero(self):
         collector = BooksCollector()
@@ -83,3 +83,17 @@ class TestBooksCollectors:
             collector.add_new_book(book)
             collector.add_book_in_favorites(book)
         assert books == collector.get_list_of_favorites_books()
+
+    def test_get_book_genre(self):
+        collector = BooksCollector()
+        collector.add_new_book('Война и мир')
+        collector.set_book_genre('Война и мир', 'Комедии')
+        assert 'Комедии' in collector.get_book_genre('Война и мир')
+
+    def test_get_books_genre(self):
+        collector = BooksCollector()
+        collector.add_new_book('Война и мир')
+        collector.add_new_book('Отцы и дети')
+        collector.set_book_genre('Война и мир', 'Комедии')
+        collector.set_book_genre('Отцы и дети', 'Ужасы')
+        assert {"Война и мир": "Комедии", "Отцы и дети": "Ужасы"} == collector.get_books_genre()
